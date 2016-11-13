@@ -34,3 +34,14 @@ Array.prototype.arrayShuffel = function(){
         this[currentIndex] = temporaryValue;
     }
 }
+
+function resetGame(){
+	cardsFlipped = 0;
+	let newCards = '';
+    cardArray.arrayShuffel();
+	for(let i = 0; i < cardArray.length; i++){
+		newCards += '<div id="card' + i + '"onclick="flipCards(this,\'' + cardArray[i] + '\')"></div>'; //Creating divs with id's containing the card values
+	}
+	let generateNewCards = document.querySelector('.board');
+	generateNewCards.innerHTML = newCards;
+}

@@ -40,8 +40,54 @@ function resetGame(){
 	let newCards = '';
     cardArray.arrayShuffel();
 	for(let i = 0; i < cardArray.length; i++){
-		newCards += '<div id="card' + i + '"onclick="flipCards(this,\'' + cardArray[i] + '\')"></div>'; //Creating divs with id's containing the card values
+		newCards += '<div id="card' + i + '"onclick="flipCards(this,\'' + cardArray[i] + '\')"></div>';
 	}
 	let generateNewCards = document.querySelector('.board');
 	generateNewCards.innerHTML = newCards;
+}
+
+function flipCards(card, cardContent){
+	if(card.innerHTML === "" && chosenCards.length < 2){
+		card.style.backgroundImage = "url('images/maincolor.png')";
+		card.innerHTML = '<img src="'+cardContent+'"/>';
+
+		if(chosenCards.length === 0){
+			chosenCards.push(cardContent);
+			cardPosition.push(card.id);
+		} else if(chosenCards.length === 1){
+			chosenCards.push(cardContent);
+			cardPosition.push(card.id);
+			if(chosenCards[0] === chosenCards[1]){
+				cardsFlipped += 2;
+				   chosenCards = [];
+            	cardPosition = [];
+
+				if(cardsFlipped === cardArray.length){
+          let btn = document.createElement("BUTTON");
+          let t = document.createTextNode("Create new game!");
+          btn.appendChild(t);
+          document.querySelector("main").appendChild(btn);
+
+          btn.addEventListener("click", function(event){
+            let board = document.querySelector('.board');
+            board.innerHTML = "";
+            btn.style.display = 'none'
+            resetGame();
+          });
+				}
+			} else {
+				function wrongPair(){
+				    let cardOne = document.getElementById(cardPosition[0]);
+				    let cardTwo = document.getElementById(cardPosition[1]);
+				    cardOne.style.backgroundImage = "url('images/memorym.png')";
+            	    cardOne.innerHTML = "";
+				    cardTwo.style.backgroundImage = "url('images/memorym.png')";
+            	    cardTwo.innerHTML = "";
+				       chosenCards = [];
+            	    cardPosition = [];
+				}
+				setTimeout(wrongPair, 1100);
+			}
+		}
+	}
 }
